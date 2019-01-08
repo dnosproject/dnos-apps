@@ -1,0 +1,390 @@
+2019-01-02 19:01:04 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:04 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:04 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:04 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:04 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:04 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:05 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:05 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:05 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:05 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:05 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:05 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:06 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:06 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:06 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:06 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:06 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:06 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:07 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:07 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:07 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:07 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:07 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:07 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:08 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:08 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:08 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:08 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:08 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:08 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:18 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:18 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:18 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:18 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:18 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:18 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:19 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:19 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:19 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:19 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:19 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:19 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:20 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:20 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:20 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:20 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:20 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:20 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:21 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:21 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:21 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 19:01:21 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:21 INFO  TestGrpc:241 - Packet_in
+2019-01-02 19:01:21 INFO  TestGrpc:321 - valuestat: true
+
+2019-01-02 22:53:15 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:53:15 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:53:23 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:53:23 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:54:02 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:54:02 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:54:04 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:54:04 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:54:51 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:54:51 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:54:53 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:54:53 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:59:24 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 22:59:24 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:59:25 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 22:59:25 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:26:03 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:26:03 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:26:05 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:26:05 INFO  LinkFailureDetector:155 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:38:43 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:38:43 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:38:43 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:38:43 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:38:50 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:38:50 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:38:50 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:38:50 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:22 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:43:22 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:22 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:43:22 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:24 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "2"
+
+2019-01-02 23:43:24 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:24 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000001"
+port_number: "2"
+
+2019-01-02 23:43:24 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:39 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-02 23:43:39 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-02 23:43:39 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-02 23:43:39 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:02:57 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-03 01:02:57 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:02:57 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-03 01:02:57 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:03:02 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-03 01:03:02 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:03:02 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-03 01:03:02 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:03:04 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-03 01:03:04 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:03:04 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-03 01:03:04 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:05:06 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-03 01:05:06 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:05:06 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-03 01:05:06 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:05:09 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000003"
+port_number: "2"
+
+2019-01-03 01:05:09 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:05:09 INFO  LinkFailureDetector:103 - device_id: "of:0000000000000002"
+port_number: "3"
+
+2019-01-03 01:05:09 INFO  LinkFailureDetector:104 - ACTIVE
+2019-01-03 01:37:38 INFO  LinkFailureDetector:124 - 11
+2019-01-03 01:37:38 INFO  LinkFailureDetector:124 - 10
+2019-01-03 01:41:20 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:41:20 INFO  LinkFailureDetector:126 - 11
+2019-01-03 01:41:20 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:41:20 INFO  LinkFailureDetector:126 - 10
+2019-01-03 01:41:23 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:44 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:44 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:44 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:44 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:46 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:46 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:46 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:46 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:48 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:48 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:48 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:48 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:50 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:50 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:50 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:50 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:53 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:53 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:53 INFO  LinkFailureDetector:120 - LINK_REMOVED
+2019-01-03 01:42:53 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:55 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:55 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:42:55 INFO  LinkFailureDetector:116 - LINK_ADDED
+2019-01-03 01:42:55 INFO  LinkFailureDetector:126 - 12
+2019-01-03 01:47:29 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 01:47:29 INFO  LinkFailureDetector:127 - 11
+2019-01-03 01:47:29 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 01:47:29 INFO  LinkFailureDetector:127 - 10
+2019-01-03 01:47:32 INFO  LinkFailureDetector:117 - LINK_ADDED
+2019-01-03 02:08:04 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:08:04 INFO  LinkFailureDetector:127 - 11
+2019-01-03 02:08:04 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:08:04 INFO  LinkFailureDetector:127 - 10
+2019-01-03 02:08:09 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:08:09 INFO  LinkFailureDetector:127 - 9
+2019-01-03 02:08:09 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:08:09 INFO  LinkFailureDetector:127 - 8
+2019-01-03 02:08:15 INFO  LinkFailureDetector:117 - LINK_ADDED
+2019-01-03 02:12:58 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:12:58 INFO  LinkFailureDetector:127 - 12
+2019-01-03 02:12:58 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:12:58 INFO  LinkFailureDetector:127 - 12
+2019-01-03 02:13:02 INFO  LinkFailureDetector:117 - LINK_ADDED
+2019-01-03 02:13:02 INFO  LinkFailureDetector:127 - 12
+2019-01-03 02:13:02 INFO  LinkFailureDetector:117 - LINK_ADDED
+2019-01-03 02:13:02 INFO  LinkFailureDetector:127 - 12
+2019-01-03 02:14:30 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:14:30 INFO  LinkFailureDetector:127 - 11
+2019-01-03 02:14:30 INFO  LinkFailureDetector:121 - LINK_REMOVED
+2019-01-03 02:14:30 INFO  LinkFailureDetector:127 - 10
+2019-01-03 02:14:38 INFO  LinkFailureDetector:117 - LINK_ADDED
+2019-01-03 10:43:03 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:03 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:03 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:03 INFO  LinkFailureDetector:133 - 10
+2019-01-03 10:43:05 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:05 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:05 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:05 INFO  LinkFailureDetector:133 - 12
+2019-01-03 10:43:07 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:07 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:07 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:07 INFO  LinkFailureDetector:133 - 10
+2019-01-03 10:43:09 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:09 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:09 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:09 INFO  LinkFailureDetector:133 - 12
+2019-01-03 10:43:37 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:37 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:37 INFO  LinkFailureDetector:125 - LINK_REMOVED
+2019-01-03 10:43:37 INFO  LinkFailureDetector:133 - 10
+2019-01-03 10:43:41 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:41 INFO  LinkFailureDetector:133 - 11
+2019-01-03 10:43:41 INFO  LinkFailureDetector:120 - LINK_ADDED
+2019-01-03 10:43:41 INFO  LinkFailureDetector:133 - 12
+2019-01-03 10:53:13 INFO  LinkFailureDetector:102 - LINK_REMOVED
+2019-01-03 10:53:13 INFO  LinkFailureDetector:109 - 9
+2019-01-03 10:53:13 INFO  LinkFailureDetector:102 - LINK_REMOVED
+2019-01-03 10:53:13 INFO  LinkFailureDetector:109 - 8
+2019-01-03 10:53:18 INFO  LinkFailureDetector:102 - LINK_REMOVED
+2019-01-03 10:53:18 INFO  LinkFailureDetector:109 - 7
+2019-01-03 10:53:18 INFO  LinkFailureDetector:102 - LINK_REMOVED
+2019-01-03 10:53:18 INFO  LinkFailureDetector:109 - 6
+2019-01-03 10:53:22 INFO  LinkFailureDetector:97 - LINK_ADDED
+2019-01-03 10:53:22 INFO  LinkFailureDetector:109 - 7
+2019-01-03 10:53:22 INFO  LinkFailureDetector:97 - LINK_ADDED
+2019-01-03 10:53:22 INFO  LinkFailureDetector:109 - 8
+2019-01-03 10:53:26 INFO  LinkFailureDetector:97 - LINK_ADDED
+2019-01-03 10:53:26 INFO  LinkFailureDetector:109 - 9
+2019-01-03 10:53:26 INFO  LinkFailureDetector:97 - LINK_ADDED
+2019-01-03 10:53:26 INFO  LinkFailureDetector:109 - 10
+2019-01-04 11:25:12 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:25:12 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:25:12 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:25:12 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:25:14 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:25:14 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:25:14 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:25:14 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:25:15 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:25:15 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:25:15 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:25:15 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:25:17 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:25:17 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:25:17 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:25:17 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:31:46 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:46 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:46 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:46 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:31:47 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:47 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:47 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:47 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:31:49 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:49 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:49 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:49 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:31:50 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:50 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:50 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:50 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:31:51 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:51 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:51 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:31:51 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:31:52 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:52 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:31:52 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:31:52 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:37:21 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:21 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:21 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:21 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:37:27 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:27 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:27 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:27 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:37:33 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:33 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:33 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:33 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:37:35 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:35 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:35 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:35 INFO  linkfailuredetector:112 - 10
+2019-01-04 11:37:36 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:36 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:36 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-04 11:37:36 INFO  linkfailuredetector:112 - 8
+2019-01-04 11:37:37 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:37 INFO  linkfailuredetector:112 - 9
+2019-01-04 11:37:37 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-04 11:37:37 INFO  linkfailuredetector:112 - 10
+2019-01-05 11:23:54 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-05 11:23:54 INFO  linkfailuredetector:112 - 9
+2019-01-05 11:23:54 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-05 11:23:54 INFO  linkfailuredetector:112 - 8
+2019-01-05 11:23:55 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-05 11:23:55 INFO  linkfailuredetector:112 - 9
+2019-01-05 11:23:55 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-05 11:23:55 INFO  linkfailuredetector:112 - 10
+2019-01-05 20:24:41 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-05 20:24:41 INFO  linkfailuredetector:112 - 9
+2019-01-05 20:24:41 INFO  linkfailuredetector:105 - LINK_REMOVED
+2019-01-05 20:24:41 INFO  linkfailuredetector:112 - 8
+2019-01-05 20:24:43 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-05 20:24:43 INFO  linkfailuredetector:112 - 9
+2019-01-05 20:24:43 INFO  linkfailuredetector:100 - LINK_ADDED
+2019-01-05 20:24:43 INFO  linkfailuredetector:112 - 10
