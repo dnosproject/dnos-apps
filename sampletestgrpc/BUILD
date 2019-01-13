@@ -29,20 +29,20 @@ COMPILE_DEPS = COMPILE + [
 ]
 
 java_binary(
-    name = "sampleTestGrpc_deploy",
+    name = "sampletestgrpc_deploy",
     srcs = glob(["*.java"]),
-    main_class = "sampleTestGrpc.TestGrpc",
+    main_class = "sampletestgrpc.TestGrpc",
     deps = COMPILE_DEPS,
 )
 
 java_image(
-    name = "sampleTestGrpc_image",
+    name = "sampletestgrpc_image",
     srcs = glob(["*.java"]),
     data = [
         ":BUILD",
         "//resources:config.properties",
         "//resources:log4j.properties",
     ],
-    main_class = "sampleTestGrpc.TestGrpc",
+    main_class = "sampletestgrpc.TestGrpc",
     deps = COMPILE_DEPS,
 )

@@ -1,4 +1,4 @@
-package sampleTestGrpc;
+package sampletestgrpc;
 
 import api.flowservice.Flow;
 import api.flowservice.FlowAction;
