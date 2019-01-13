@@ -1,4 +1,6 @@
 load("@dnos_core//tools/build/bazel:generate_workspace.bzl", "COMPILE")
+load("@io_bazel_rules_docker//java:image.bzl", "java_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 
 COMPILE_DEPS = COMPILE + [
     "@dnos_core_grpc//protobuf/proto:onos-core-protobuf-services-proto",
@@ -12,7 +14,7 @@ COMPILE_DEPS = COMPILE + [
     "@dnos_services//drivers/onos/flowservice/impl:dnos-onos-driver-flowservice",
     "@dnos_services//drivers/controller:dnos-driver-controller",
     "@dnos_services//drivers/onos:dnos-onos-driver-controller",
-     "@dnos_services//config:dnos-services-config-service",
+    "@dnos_services//config:dnos-services-config-service",
     "@com_google_protobuf//:protobuf_java",
     "@com_googlecode_json_simple//jar",
     "@onos_openflow//jar",
@@ -27,8 +29,20 @@ COMPILE_DEPS = COMPILE + [
 ]
 
 java_binary(
-    name = "sampleTestGrpc2_deploy",
+    name = "fwd_deploy",
     srcs = glob(["*.java"]),
-    main_class = "sampleTestGrpc2.TestGrpc2",
+    main_class = "fwd.fwd",
+    deps = COMPILE_DEPS,
+)
+
+java_image(
+    name = "fwd_image",
+    srcs = glob(["*.java"]),
+    data = [
+        ":BUILD",
+        "//resources:config.properties",
+        "//resources:log4j.properties",
+    ],
+    main_class = "fwd.fwd",
     deps = COMPILE_DEPS,
 )

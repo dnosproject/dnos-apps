@@ -1,4 +1,4 @@
-package sampleTestGrpc2;
+package fwd;
 
 import api.flowservice.Flow;
 import api.flowservice.FlowAction;
@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class TestGrpc2 {
-  private static Logger log = Logger.getLogger(TestGrpc2.class);
+public class fwd {
+  private static Logger log = Logger.getLogger(fwd.class);
 
   static String serverId = null;
-  static String clientId = "testGrpc2";
+  static String clientId = "fwd";
     private static int TABLE_ID = 0;
     private static int TABLE_ID_CTRL_PACKETS = 0;
     private static int CTRL_PACKET_PRIORITY = 100;
@@ -287,7 +287,7 @@ public class TestGrpc2 {
                             .timeOut(DEFAULT_TIMEOUT)
                             .build();
 
-                    //finalController.flowService.addFlow(flow);
+                    finalController.flowService.addFlow(flow);
 
                     InstructionProtoOuterClass.InstructionProto instructionProto =
                         InstructionProtoOuterClass.InstructionProto.newBuilder()
@@ -310,12 +310,12 @@ public class TestGrpc2 {
                             .setData(inboundPacketProto.getData())
                             .build();
 
-                    /*packetOutServiceStub.emit(
+                    packetOutServiceStub.emit(
                         outboundPacketProto2,
                         new StreamObserver<ServicesProto.PacketOutStatus>() {
                           @Override
                           public void onNext(ServicesProto.PacketOutStatus value) {
-                            log.info("value" + value);
+
                           }
 
                           @Override
@@ -323,7 +323,7 @@ public class TestGrpc2 {
 
                           @Override
                           public void onCompleted() {}
-                        });*/
+                        });
 
                     return;
                   }
@@ -362,7 +362,7 @@ public class TestGrpc2 {
                           .timeOut(DEFAULT_TIMEOUT)
                           .build();
 
-                  //finalController.flowService.addFlow(flow);
+                  finalController.flowService.addFlow(flow);
 
                   InstructionProtoOuterClass.InstructionProto instructionProto =
                       InstructionProtoOuterClass.InstructionProto.newBuilder()
@@ -385,7 +385,7 @@ public class TestGrpc2 {
                           .setData(inboundPacketProto.getData())
                           .build();
 
-                  /*packetOutServiceStub.emit(
+                  packetOutServiceStub.emit(
                       outboundPacketProto2,
                       new StreamObserver<ServicesProto.PacketOutStatus>() {
                         @Override
@@ -396,7 +396,7 @@ public class TestGrpc2 {
 
                         @Override
                         public void onCompleted() {}
-                      });*/
+                      });
                 }
               }
 
