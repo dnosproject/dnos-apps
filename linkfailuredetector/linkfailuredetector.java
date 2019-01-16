@@ -29,6 +29,7 @@ public class linkfailuredetector {
   public static void main(String[] args) {
 
 
+
     ManagedChannel channel;
     String controllerName;
     String controllerIP;

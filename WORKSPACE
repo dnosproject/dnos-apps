@@ -65,14 +65,14 @@ git_repository(
 
 git_repository(
     name = "dnos_services",
-    commit = "0caf5f2265b9e2461af90d42a2ab5009a7178a89",
-    remote = "https://bitbucket.org/dnosproject/dnos-services/src/master",
+    commit = "913ee5929cab0cd900bc0cfa219d8dd162bfd288",
+    remote = "https://github.com/dnosproject/dnos-services",
 )
 
 git_repository(
     name = "dnos_core_grpc",
-    commit = "70a8516dd894715cae57c13c22a94998a3a58aeb",
-    remote = "https://bitbucket.org/dnosproject/dnos-core-grpc/src/master",
+    commit = "731f8f939c2aa290f8b81476e5c113eb4bc2523f",
+    remote = "https://github.com/dnosproject/dnos-core-grpc",
 )
 
 load("@dnos_core//tools/build/bazel:generate_workspace.bzl", "generated_maven_jars")
