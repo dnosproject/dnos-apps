@@ -29,7 +29,7 @@ COMPILE_DEPS = COMPILE + [
 ]
 
 java_image(
-    name = "packetStats_image",
+    name = "packetstats_image",
     srcs = glob(["*.java"]),
     data = [
         ":BUILD",
