@@ -57,6 +57,9 @@ public class fwd {
     controller = new OnosController();
 
     EventNotificationGrpc.EventNotificationStub packetNotificationStub;
+    EventNotificationGrpc.EventNotificationStub linkEventNotification;
+
+
     PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
     channel =
         ManagedChannelBuilder.forAddress(controllerIP, Integer.parseInt(grpcPort))
@@ -110,9 +113,6 @@ public class fwd {
       }
 
 
-
-
-
     ServicesProto.RegistrationRequest request =
         ServicesProto.RegistrationRequest
                 .newBuilder()
@@ -135,20 +135,21 @@ public class fwd {
         });
 
 
-    ServicesProto.Topic topic =
+    ServicesProto.Topic packettopic =
         ServicesProto.Topic.newBuilder()
             .setClientId(clientId)
             .setType(ServicesProto.topicType.PACKET_EVENT)
             .build();
 
 
-    class Event implements Runnable {
+
+    class PacketEvent implements Runnable {
 
       @Override
       public void run() {
 
-        packetNotificationStub.onEvent(
-            topic,
+        packetNotificationStub.onEvent(packettopic
+            ,
             new StreamObserver<ServicesProto.Notification>() {
               @Override
               public void onNext(ServicesProto.Notification value) {
@@ -235,7 +236,7 @@ public class fwd {
 
                 if (type == Ethernet.TYPE_IPV4) {
 
-                    log.info("packet");
+                    log.info("PACKET_IN Event");
                   IPv4 IPv4packet = (IPv4) eth.getPayload();
                   byte ipv4Protocol = IPv4packet.getProtocol();
 
@@ -409,6 +410,7 @@ public class fwd {
               }
             });
 
+
         while (true) {
 
 
@@ -416,8 +418,15 @@ public class fwd {
       }
     }
 
-    Event event = new Event();
-    Thread t = new Thread(event);
+
+
+
+
+
+
+
+    PacketEvent packetEvent= new PacketEvent();
+    Thread t = new Thread(packetEvent);
     t.start();
   }
 }
