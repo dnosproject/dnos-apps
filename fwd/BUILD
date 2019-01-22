@@ -6,6 +6,7 @@ COMPILE_DEPS = COMPILE + [
     "@dnos_core_grpc//protobuf/proto:onos-core-protobuf-services-proto",
     "@dnos_core_grpc//protobuf/proto:onos-protobuf-models-proto",
     "@dnos_core_grpc//protobuf/proto:OutboundPacket_proto",
+    "@dnos_core_grpc//protobuf/proto:OutputInstruction_proto",
     "@dnos_core//api/eventServiceApi:dnos-event-service-api",
     "@dnos_core//tools/utility:dnos-utility-rest-tools",
     "@dnos_services//api/flowservice:dnos-flow-service-api",

@@ -17,6 +17,7 @@ import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
 import org.onlab.packet.*;
 import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass;
+import org.onosproject.grpc.net.flow.instructions.models.OutputInstructionProtoOuterClass.OutputInstructionProto;
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass;
 import org.onosproject.grpc.net.models.EventNotificationGrpc;
 import org.onosproject.grpc.net.models.PortProtoOuterClass;
@@ -196,14 +197,17 @@ public class fwd {
                   Ethernet ethReply =
                       ARP.buildArpReply(targetIpAddress, MacAddress.valueOf(dstMac), eth);
 
+                  OutputInstructionProto outputInstructionProto =
+                          OutputInstructionProto
+                                  .newBuilder()
+                                  .setPort(PortProtoOuterClass.PortProto.newBuilder()
+                                  .setPortNumber(
+                                          inboundPacketProto.getConnectPoint().getPortNumber())
+                                  .build()).build();
                   InstructionProtoOuterClass.InstructionProto instructionProto =
                       InstructionProtoOuterClass.InstructionProto.newBuilder()
                           .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                          .setPort(
-                              PortProtoOuterClass.PortProto.newBuilder()
-                                  .setPortNumber(
-                                      inboundPacketProto.getConnectPoint().getPortNumber())
-                                  .build())
+                          .setOutput(outputInstructionProto)
                           .build();
 
                   TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
@@ -290,13 +294,17 @@ public class fwd {
 
                     finalController.flowService.addFlow(flow);
 
+                    OutputInstructionProto outputInstructionProto =
+                              OutputInstructionProto
+                                      .newBuilder()
+                                      .setPort(PortProtoOuterClass.PortProto.newBuilder()
+                                              .setPortNumber(dstHost.getHostLocation().getPort())
+                                              .build()).build();
+
                     InstructionProtoOuterClass.InstructionProto instructionProto =
                         InstructionProtoOuterClass.InstructionProto.newBuilder()
                             .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                            .setPort(
-                                PortProtoOuterClass.PortProto.newBuilder()
-                                    .setPortNumber(dstHost.getHostLocation().getPort())
-                                    .build())
+                                .setOutput(outputInstructionProto)
                             .build();
 
                     TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
@@ -365,13 +373,18 @@ public class fwd {
 
                   finalController.flowService.addFlow(flow);
 
+                    OutputInstructionProto outputInstructionProto =
+                            OutputInstructionProto
+                                    .newBuilder()
+                                    .setPort(PortProtoOuterClass.PortProto.newBuilder()
+                                            .setPortNumber(firstEdge.getSrcPort())
+                                            .build()).build();
+
+
                   InstructionProtoOuterClass.InstructionProto instructionProto =
                       InstructionProtoOuterClass.InstructionProto.newBuilder()
                           .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
-                          .setPort(
-                              PortProtoOuterClass.PortProto.newBuilder()
-                                  .setPortNumber(firstEdge.getSrcPort())
-                                  .build())
+                          .setOutput(outputInstructionProto)
                           .build();
 
                   TrafficTreatmentProtoOuterClass.TrafficTreatmentProto trafficTreatmentProto =
