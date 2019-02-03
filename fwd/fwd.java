@@ -11,6 +11,7 @@ import com.google.protobuf.ByteString;
 import config.ConfigService;
 import drivers.controller.Controller;
 import drivers.onos.OnosController;
+import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -40,9 +41,14 @@ public class fwd {
     private static int IP_PACKET_PRIORITY = 1000;
     private static int DEFAULT_TIMEOUT = 10;
 
+
+
+
+
   public static void main(String[] args) {
 
     ManagedChannel channel;
+
     String controllerName;
     String controllerIP;
     String grpcPort;
@@ -422,8 +428,13 @@ public class fwd {
             });
 
 
-        while (true) {
 
+
+
+
+
+        while (true) {
+            
 
         }
       }
