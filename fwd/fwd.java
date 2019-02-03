@@ -16,8 +16,8 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
 import org.onlab.packet.*;
-import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass;
-import org.onosproject.grpc.net.flow.instructions.models.OutputInstructionProtoOuterClass.OutputInstructionProto;
+import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass.InstructionProto;
+import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass.OutputInstructionProto;
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass;
 import org.onosproject.grpc.net.models.EventNotificationGrpc;
 import org.onosproject.grpc.net.models.PortProtoOuterClass;
@@ -197,6 +197,7 @@ public class fwd {
                   Ethernet ethReply =
                       ARP.buildArpReply(targetIpAddress, MacAddress.valueOf(dstMac), eth);
 
+
                   OutputInstructionProto outputInstructionProto =
                           OutputInstructionProto
                                   .newBuilder()
@@ -204,9 +205,8 @@ public class fwd {
                                   .setPortNumber(
                                           inboundPacketProto.getConnectPoint().getPortNumber())
                                   .build()).build();
-                  InstructionProtoOuterClass.InstructionProto instructionProto =
-                      InstructionProtoOuterClass.InstructionProto.newBuilder()
-                          .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                  InstructionProto instructionProto =
+                      InstructionProto.newBuilder()
                           .setOutput(outputInstructionProto)
                           .build();
 
@@ -301,9 +301,8 @@ public class fwd {
                                               .setPortNumber(dstHost.getHostLocation().getPort())
                                               .build()).build();
 
-                    InstructionProtoOuterClass.InstructionProto instructionProto =
-                        InstructionProtoOuterClass.InstructionProto.newBuilder()
-                            .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                    InstructionProto instructionProto =
+                        InstructionProto.newBuilder()
                                 .setOutput(outputInstructionProto)
                             .build();
 
@@ -381,9 +380,8 @@ public class fwd {
                                             .build()).build();
 
 
-                  InstructionProtoOuterClass.InstructionProto instructionProto =
-                      InstructionProtoOuterClass.InstructionProto.newBuilder()
-                          .setType(InstructionProtoOuterClass.TypeProto.OUTPUT)
+                  InstructionProto instructionProto =
+                      InstructionProto.newBuilder()
                           .setOutput(outputInstructionProto)
                           .build();
 
