@@ -407,7 +407,9 @@ public class fwd {
                       outboundPacketProto2,
                       new StreamObserver<ServicesProto.PacketOutStatus>() {
                         @Override
-                        public void onNext(ServicesProto.PacketOutStatus value) {}
+                        public void onNext(ServicesProto.PacketOutStatus value) {
+                            log.info(value);
+                        }
 
                         @Override
                         public void onError(Throwable t) {}
