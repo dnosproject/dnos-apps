@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.onlab.packet.*;
 import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass.InstructionProto;
 import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterClass.OutputInstructionProto;
+import org.onosproject.grpc.net.flow.models.FlowRuleProto;
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass;
 import org.onosproject.grpc.net.models.EventNotificationGrpc;
 import org.onosproject.grpc.net.models.PortProtoOuterClass;
@@ -377,6 +378,9 @@ public class fwd {
                           .build();
 
                   finalController.flowService.addFlow(flow);
+
+
+
 
                     OutputInstructionProto outputInstructionProto =
                             OutputInstructionProto
