@@ -29,6 +29,9 @@ import org.onosproject.grpc.net.packet.models.InboundPacketProtoOuterClass.Inbou
 import org.onosproject.grpc.net.packet.models.OutboundPacketProtoOuterClass.OutboundPacketProto;
 import org.onosproject.grpc.net.packet.models.PacketContextProtoOuterClass.PacketContextProto;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +48,32 @@ public class fwdgrpc {
   private static int DEFAULT_TIMEOUT = 10;
 
 
+  public static byte[] createMacAddress (String mac) {
+
+        byte[] macAddrBytes = new byte[6];
+
+        String[] macAddressParts = mac.split(":");
+        for(int i=0; i< macAddrBytes.length;i++) {
+
+            Integer hex = Integer.parseInt(macAddressParts[i], 16);
+            macAddrBytes[i] = hex.byteValue();
+        }
+        return macAddrBytes;
+      }
+
+  public static  byte[] createIpAddress (String ip) {
+
+      InetAddress ipAddr = null;
+      try {
+          ipAddr = InetAddress.getByName(ip);
+      } catch (UnknownHostException e) {
+          e.printStackTrace();
+      }
+
+      return ipAddr.getAddress();
+
+  }
+
   public static void main(String[] args) {
 
     ManagedChannel channel;
@@ -52,7 +81,6 @@ public class fwdgrpc {
     String controllerIP;
     String grpcPort;
     Controller controller = null;
-
     ConfigService configService = new ConfigService();
     configService.init();
 
@@ -91,7 +119,6 @@ public class fwdgrpc {
               .setEthTypeCriterion(ethTypeCriterionProto)
               .setType(CriterionProtoOuterClass.TypeProto.ETH_TYPE)
               .build();
-
 
 
           TrafficSelectorProto trafficSelectorProto = TrafficSelectorProto
@@ -220,6 +247,9 @@ public class fwdgrpc {
 
 
 
+
+
+
     class PacketEvent implements Runnable {
 
       @Override
@@ -324,96 +354,111 @@ public class fwdgrpc {
                   TopoHost dstHost =
                       finalController.topoStore.getTopoHostByMac(eth.getDestinationMAC());
 
-
                   if (srcHost == null || dstHost == null) {
                     return;
                   }
 
-                  if (inboundPacketProto.getConnectPoint().getDeviceId()
-                      .equals(dstHost.getHostLocation().getElementID())) {
+                  if (inboundPacketProto.getConnectPoint()
+                      .getDeviceId().equals(dstHost
+                                  .getHostLocation().getElementID())) {
 
-                      log.info(srcHost.getHostMac());
                     CriterionProto ethSrcCriterion =
                         CriterionProto.newBuilder()
                             .setEthCriterion(
                                 CriterionProtoOuterClass.EthCriterionProto.newBuilder()
-                                    .setMacAddress(srcHost.getHostMac())
+                                    .setMacAddress(
+                                        ByteString.copyFrom(createMacAddress(srcHost.getHostMac())))
                                     .build())
                             .setType(CriterionProtoOuterClass.TypeProto.ETH_SRC)
                             .build();
 
-
                     CriterionProto ethDstCriterion =
-                              CriterionProto.newBuilder()
-                                      .setEthCriterion(
-                                              CriterionProtoOuterClass.EthCriterionProto
-                                                      .newBuilder()
-                                                      .setMacAddress(dstHost.getHostMac())
-                                                      .build())
-                                      .setType(CriterionProtoOuterClass.TypeProto.ETH_DST)
-                                      .build();
+                        CriterionProto.newBuilder()
+                            .setEthCriterion(
+                                CriterionProtoOuterClass.EthCriterionProto.newBuilder()
+                                    .setMacAddress(
+                                        ByteString.copyFrom(createMacAddress(dstHost.getHostMac())))
+                                    .build())
+                            .setType(CriterionProtoOuterClass.TypeProto.ETH_DST)
+                            .build();
                     CriterionProto ethTypeCriterion =
+                        CriterionProto.newBuilder()
+                            .setEthTypeCriterion(
+                                EthTypeCriterionProto.newBuilder()
+                                    .setEthType(Ethernet.TYPE_IPV4)
+                                    .build())
+                            .setType(CriterionProtoOuterClass.TypeProto.ETH_TYPE)
+                            .build();
+
+                    CriterionProto srcIpCriterion =
+                        CriterionProto.newBuilder()
+                                .setType(CriterionProtoOuterClass.TypeProto.IPV4_SRC)
+                            .setIpCriterion(
+                                CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                    .setIpPrefix(
+                                        ByteString.copyFrom(
+                                            createIpAddress(srcHost.getHostIPAddresses().get(0))))
+                                    .build())
+                            .build();
+                      CriterionProto dstIpCriterion =
                               CriterionProto.newBuilder()
-                                      .setEthTypeCriterion(EthTypeCriterionProto
-                                                      .newBuilder().setEthType(Ethernet.TYPE_IPV4)
+                                      .setType(CriterionProtoOuterClass.TypeProto.IPV4_DST)
+                                      .setIpCriterion(
+                                              CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                                      .setIpPrefix(
+                                                              ByteString.copyFrom(
+                                                                      createIpAddress(dstHost.getHostIPAddresses().get(0))))
                                                       .build())
-                                      .setType(CriterionProtoOuterClass.TypeProto.ETH_TYPE)
                                       .build();
 
-          TrafficSelectorProto trafficSelectorProto = TrafficSelectorProto
-                  .newBuilder()
-                  .addCriterion(ethSrcCriterion)
-                  .addCriterion(ethDstCriterion)
-                  .addCriterion(ethTypeCriterion)
-                  .build();
+                    TrafficSelectorProto trafficSelectorProto =
+                        TrafficSelectorProto.newBuilder()
+                            .addCriterion(ethSrcCriterion)
+                            .addCriterion(ethDstCriterion)
+                            .addCriterion(ethTypeCriterion)
+                            .addCriterion(srcIpCriterion)
+                                .addCriterion(dstIpCriterion)
+                            .build();
 
-          InstructionProto instructionProto = InstructionProto
-                  .newBuilder()
-                  .setOutput(OutputInstructionProto
-                          .newBuilder()
-                          .setPort(PortProtoOuterClass
-                                  .PortProto
-                                  .newBuilder()
-                                  .setPortNumber(dstHost.getHostLocation().getPort())
-                                  .build())
-                          .build())
-                  .build();
+                    InstructionProto instructionProto =
+                        InstructionProto.newBuilder()
+                            .setOutput(
+                                OutputInstructionProto.newBuilder()
+                                    .setPort(
+                                        PortProtoOuterClass.PortProto.newBuilder()
+                                            .setPortNumber(dstHost.getHostLocation().getPort())
+                                            .build())
+                                    .build())
+                            .build();
 
-          TrafficTreatmentProto trafficTreatmentProto = TrafficTreatmentProto
-                  .newBuilder()
-                  .addAllInstructions(instructionProto)
-                  .build();
+                    TrafficTreatmentProto trafficTreatmentProto =
+                        TrafficTreatmentProto.newBuilder()
+                            .addAllInstructions(instructionProto)
+                            .build();
 
+                    FlowRuleProto flowRuleProto =
+                        FlowRuleProto.newBuilder()
+                            .setTreatment(trafficTreatmentProto)
+                            .setSelector(trafficSelectorProto)
+                            .setPriority(IP_PACKET_PRIORITY)
+                            .setDeviceId(dstHost.getHostLocation().getElementID())
+                            .setTableId(TABLE_ID)
+                            .setTimeout(DEFAULT_TIMEOUT)
+                            .setPermanent(false)
+                            .build();
 
-          FlowRuleProto flowRuleProto = FlowRuleProto
-                  .newBuilder()
-                  .setTreatment(trafficTreatmentProto)
-                  .setSelector(trafficSelectorProto)
-                  .setPriority(IP_PACKET_PRIORITY)
-                  .setDeviceId(dstHost.getHostLocation().getElementID())
-                  .setTableId(TABLE_ID)
-                  .setTimeout(DEFAULT_TIMEOUT)
-                  .setPermanent(false)
-                  .build();
+                    flowServiceStub.addFlow(
+                        flowRuleProto,
+                        new StreamObserver<ServicesProto.FlowServiceStatus>() {
+                          @Override
+                          public void onNext(ServicesProto.FlowServiceStatus value) {}
 
-          flowServiceStub.addFlow(flowRuleProto,
-                  new StreamObserver<ServicesProto.FlowServiceStatus>() {
-              @Override
-              public void onNext(ServicesProto.FlowServiceStatus value) {
+                          @Override
+                          public void onError(Throwable t) {}
 
-              }
-
-              @Override
-              public void onError(Throwable t) {
-
-              }
-
-              @Override
-              public void onCompleted() {
-
-              }
-          });
-
+                          @Override
+                          public void onCompleted() {}
+                        });
 
                     OutputInstructionProto outputInstructionProto =
                         OutputInstructionProto.newBuilder()
@@ -453,99 +498,112 @@ public class fwdgrpc {
                     return;
                   }
 
-
                   List<TopoEdge> path = null;
                   path =
                       finalController.topoStore.getShortestPath(
                           inboundPacketProto.getConnectPoint().getDeviceId(),
                           dstHost.getHostLocation().getElementID());
 
+                  TopoEdge firstEdge = path.get(0);
 
-                    TopoEdge firstEdge = path.get(0);
-
-                            CriterionProto ethSrcCriterion =
-                        CriterionProto.newBuilder()
-                            .setEthCriterion(
-                                CriterionProtoOuterClass.EthCriterionProto.newBuilder()
-                                    .setMacAddress(srcHost.getHostMac())
-                                    .build())
-                            .setType(CriterionProtoOuterClass.TypeProto.ETH_SRC)
-                            .build();
-
-
-                    CriterionProto ethDstCriterion =
-                              CriterionProto.newBuilder()
-                                      .setEthCriterion(
-                                              CriterionProtoOuterClass.EthCriterionProto
-                                                      .newBuilder()
-                                                      .setMacAddress(dstHost.getHostMac())
-                                                      .build())
-                                      .setType(CriterionProtoOuterClass.TypeProto.ETH_DST)
-                                      .build();
-                    CriterionProto ethTypeCriterion =
-                              CriterionProto.newBuilder()
-                                      .setEthTypeCriterion(EthTypeCriterionProto
-                                                      .newBuilder().setEthType(Ethernet.TYPE_IPV4)
-                                                      .build())
-                                      .setType(CriterionProtoOuterClass.TypeProto.ETH_TYPE)
-                                      .build();
-
-          TrafficSelectorProto trafficSelectorProto = TrafficSelectorProto
-                  .newBuilder()
-                  .addCriterion(ethSrcCriterion)
-                  .addCriterion(ethDstCriterion)
-                  .addCriterion(ethTypeCriterion)
-                  .build();
-
-
-
-          InstructionProto instructionProto = InstructionProto
-                  .newBuilder()
-                  .setOutput(OutputInstructionProto
-                          .newBuilder()
-                          .setPort(PortProtoOuterClass
-                                  .PortProto
-                                  .newBuilder()
-                                  .setPortNumber(firstEdge.getSrcPort())
+                  CriterionProto ethSrcCriterion =
+                      CriterionProto.newBuilder()
+                          .setEthCriterion(
+                              CriterionProtoOuterClass.EthCriterionProto.newBuilder()
+                                  .setMacAddress(
+                                      ByteString.copyFrom(createMacAddress(srcHost.getHostMac())))
                                   .build())
-                          .build())
-                  .build();
+                          .setType(CriterionProtoOuterClass.TypeProto.ETH_SRC)
+                          .build();
 
-          TrafficTreatmentProto trafficTreatmentProto = TrafficTreatmentProto
-                  .newBuilder()
-                  .addAllInstructions(instructionProto)
-                  .build();
+                  CriterionProto ethDstCriterion =
+                      CriterionProto.newBuilder()
+                          .setEthCriterion(
+                              CriterionProtoOuterClass.EthCriterionProto.newBuilder()
+                                  .setMacAddress(
+                                      ByteString.copyFrom(createMacAddress(dstHost.getHostMac())))
+                                  .build())
+                          .setType(CriterionProtoOuterClass.TypeProto.ETH_DST)
+                          .build();
+                  CriterionProto ethTypeCriterion =
+                      CriterionProto.newBuilder()
+                          .setEthTypeCriterion(
+                              EthTypeCriterionProto.newBuilder()
+                                  .setEthType(Ethernet.TYPE_IPV4)
+                                  .build())
+                          .setType(CriterionProtoOuterClass.TypeProto.ETH_TYPE)
+                          .build();
 
+                  CriterionProto srcIpCriterion =
+                      CriterionProto.newBuilder()
+                          .setType(CriterionProtoOuterClass.TypeProto.IPV4_SRC)
+                          .setIpCriterion(
+                              CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                  .setIpPrefix(
+                                      ByteString.copyFrom(
+                                          createIpAddress(srcHost.getHostIPAddresses().get(0))))
+                                  .build())
+                          .build();
 
-          FlowRuleProto flowRuleProto = FlowRuleProto
-                  .newBuilder()
-                  .setTreatment(trafficTreatmentProto)
-                  .setSelector(trafficSelectorProto)
-                  .setPriority(IP_PACKET_PRIORITY)
-                  .setDeviceId(firstEdge.getSrc())
-                  .setTableId(TABLE_ID)
-                  .setTimeout(DEFAULT_TIMEOUT)
-                  .setPermanent(false)
-                  .build();
+                  CriterionProto dstIpCriterion =
+                      CriterionProto.newBuilder()
+                              .setType(CriterionProtoOuterClass.TypeProto.IPV4_DST)
+                          .setIpCriterion(
+                              CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                  .setIpPrefix(
+                                      ByteString.copyFrom(
+                                          createIpAddress(dstHost.getHostIPAddresses().get(0))))
+                                  .build())
+                          .build();
 
+                  TrafficSelectorProto trafficSelectorProto =
+                      TrafficSelectorProto.newBuilder()
+                          .addCriterion(ethSrcCriterion)
+                          .addCriterion(ethDstCriterion)
+                          .addCriterion(ethTypeCriterion)
+                          .addCriterion(srcIpCriterion)
+                          .addCriterion(dstIpCriterion)
+                          .build();
 
-          flowServiceStub.addFlow(flowRuleProto,
-                  new StreamObserver<ServicesProto.FlowServiceStatus>() {
-              @Override
-              public void onNext(ServicesProto.FlowServiceStatus value) {
+                  InstructionProto instructionProto =
+                      InstructionProto.newBuilder()
+                          .setOutput(
+                              OutputInstructionProto.newBuilder()
+                                  .setPort(
+                                      PortProtoOuterClass.PortProto.newBuilder()
+                                          .setPortNumber(firstEdge.getSrcPort())
+                                          .build())
+                                  .build())
+                          .build();
 
-              }
+                  TrafficTreatmentProto trafficTreatmentProto =
+                      TrafficTreatmentProto.newBuilder()
+                          .addAllInstructions(instructionProto)
+                          .build();
 
-              @Override
-              public void onError(Throwable t) {
+                  FlowRuleProto flowRuleProto =
+                      FlowRuleProto.newBuilder()
+                          .setTreatment(trafficTreatmentProto)
+                          .setSelector(trafficSelectorProto)
+                          .setPriority(IP_PACKET_PRIORITY)
+                          .setDeviceId(firstEdge.getSrc())
+                          .setTableId(TABLE_ID)
+                          .setTimeout(DEFAULT_TIMEOUT)
+                          .setPermanent(false)
+                          .build();
 
-              }
+                  flowServiceStub.addFlow(
+                      flowRuleProto,
+                      new StreamObserver<ServicesProto.FlowServiceStatus>() {
+                        @Override
+                        public void onNext(ServicesProto.FlowServiceStatus value) {}
 
-              @Override
-              public void onCompleted() {
+                        @Override
+                        public void onError(Throwable t) {}
 
-              }
-          });
+                        @Override
+                        public void onCompleted() {}
+                      });
 
                   OutputInstructionProto outputInstructionProto =
                       OutputInstructionProto.newBuilder()
@@ -574,9 +632,7 @@ public class fwdgrpc {
                       outboundPacketProto2,
                       new StreamObserver<ServicesProto.PacketOutStatus>() {
                         @Override
-                        public void onNext(ServicesProto.PacketOutStatus value) {
-                          log.info(value);
-                        }
+                        public void onNext(ServicesProto.PacketOutStatus value) {}
 
                         @Override
                         public void onError(Throwable t) {}
