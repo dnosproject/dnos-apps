@@ -25,9 +25,11 @@ import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Topic;
 import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.topicType;
 import org.onosproject.grpc.grpcintegration.models.FlowServiceGrpc;
 import org.onosproject.grpc.grpcintegration.models.PacketOutServiceGrpc;
+import org.onosproject.grpc.grpcintegration.models.ServicesProto;
 import org.onosproject.grpc.grpcintegration.models.StatusProto;
 import org.onosproject.grpc.grpcintegration.models.StatusProto.FlowServiceStatus;
 import org.onosproject.grpc.grpcintegration.models.StatusProto.PacketOutStatus;
+import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass.CriterionProto;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass.EthTypeCriterionProto;
@@ -40,6 +42,7 @@ import org.onosproject.grpc.net.models.PortProtoOuterClass;
 import org.onosproject.grpc.net.packet.models.InboundPacketProtoOuterClass.InboundPacketProto;
 import org.onosproject.grpc.net.packet.models.OutboundPacketProtoOuterClass.OutboundPacketProto;
 import org.onosproject.grpc.net.packet.models.PacketContextProtoOuterClass.PacketContextProto;
+import org.onosproject.grpc.net.topology.models.TopologyGraphProtoOuterClass;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -104,6 +107,7 @@ public class fwdgrpc {
 
     EventNotificationGrpc.EventNotificationStub packetNotificationStub;
       FlowServiceGrpc.FlowServiceStub flowServiceStub;
+      TopoServiceGrpc.TopoServiceStub topoServiceStub;
 
 
     PacketOutServiceGrpc.PacketOutServiceStub packetOutServiceStub;
@@ -113,12 +117,39 @@ public class fwdgrpc {
             .build();
 
     packetNotificationStub = EventNotificationGrpc.newStub(channel);
+    topoServiceStub = TopoServiceGrpc.newStub(channel);
+
     flowServiceStub = FlowServiceGrpc.newStub(channel);
 
     packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
 
+
+    ServicesProto.Empty req = ServicesProto.Empty.newBuilder().build();
+
+    topoServiceStub.getGraph(req, new StreamObserver<TopologyGraphProtoOuterClass.TopologyGraphProto>() {
+        @Override
+        public void onNext(TopologyGraphProtoOuterClass.TopologyGraphProto value) {
+
+        }
+
+        @Override
+        public void onError(Throwable t) {
+
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+    });
+
+
       Controller finalController = controller;
       Set<TopoSwitch> topoSwitches = finalController.topoStore.getSwitches();
+
+
+
+
 
       for (TopoSwitch topoSwitch : topoSwitches) {
 
