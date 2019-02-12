@@ -71,7 +71,7 @@ git_repository(
 
 git_repository(
     name = "dnos_core_grpc",
-    commit = "78ec7c73b506337c23bd1060dc8ade64f497b90d",
+    commit = "835da30bbd8654987928af310b01861672a3bdd8",
     remote = "https://github.com/dnosproject/dnos-core-grpc",
 )
 

@@ -1,9 +1,5 @@
 package fwdgrpc;
 
-import api.flowservice.Flow;
-import api.flowservice.FlowAction;
-import api.flowservice.FlowActionType;
-import api.flowservice.FlowMatch;
 import api.topostore.TopoEdge;
 import api.topostore.TopoHost;
 import api.topostore.TopoSwitch;
@@ -15,7 +11,23 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
-import org.onlab.packet.*;
+import org.onlab.packet.ARP;
+import org.onlab.packet.DeserializationException;
+import org.onlab.packet.Ethernet;
+import org.onlab.packet.IPv4;
+import org.onlab.packet.Ip4Address;
+import org.onlab.packet.MacAddress;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationGrpc;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Notification;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.RegistrationRequest;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.RegistrationResponse;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Topic;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.topicType;
+import org.onosproject.grpc.grpcintegration.models.FlowServiceGrpc;
+import org.onosproject.grpc.grpcintegration.models.PacketOutServiceGrpc;
+import org.onosproject.grpc.grpcintegration.models.StatusProto;
+import org.onosproject.grpc.grpcintegration.models.StatusProto.FlowServiceStatus;
+import org.onosproject.grpc.grpcintegration.models.StatusProto.PacketOutStatus;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass.CriterionProto;
 import org.onosproject.grpc.net.flow.criteria.models.CriterionProtoOuterClass.EthTypeCriterionProto;
@@ -24,15 +36,13 @@ import org.onosproject.grpc.net.flow.instructions.models.InstructionProtoOuterCl
 import org.onosproject.grpc.net.flow.models.FlowRuleProto;
 import org.onosproject.grpc.net.flow.models.TrafficSelectorProtoOuterClass.TrafficSelectorProto;
 import org.onosproject.grpc.net.flow.models.TrafficTreatmentProtoOuterClass.TrafficTreatmentProto;
-import org.onosproject.grpc.net.models.*;
+import org.onosproject.grpc.net.models.PortProtoOuterClass;
 import org.onosproject.grpc.net.packet.models.InboundPacketProtoOuterClass.InboundPacketProto;
 import org.onosproject.grpc.net.packet.models.OutboundPacketProtoOuterClass.OutboundPacketProto;
 import org.onosproject.grpc.net.packet.models.PacketContextProtoOuterClass.PacketContextProto;
 
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -64,11 +74,14 @@ public class fwdgrpc {
   public static  byte[] createIpAddress (String ip) {
 
       InetAddress ipAddr = null;
+
       try {
           ipAddr = InetAddress.getByName(ip);
       } catch (UnknownHostException e) {
           e.printStackTrace();
       }
+
+      log.info(ipAddr.getAddress());
 
       return ipAddr.getAddress();
 
@@ -153,11 +166,12 @@ public class fwdgrpc {
                   .setTableId(TABLE_ID_CTRL_PACKETS)
                   .setTimeout(0)
                   .setPermanent(true)
+                  .setAppName("Reactive_fwd")
                   .build();
 
-          flowServiceStub.addFlow(flowRuleProto, new StreamObserver<ServicesProto.FlowServiceStatus>() {
+          flowServiceStub.addFlow(flowRuleProto, new StreamObserver<StatusProto.FlowServiceStatus>() {
               @Override
-              public void onNext(ServicesProto.FlowServiceStatus value) {
+              public void onNext(StatusProto.FlowServiceStatus value) {
               }
 
               @Override
@@ -197,11 +211,13 @@ public class fwdgrpc {
                   .setTableId(TABLE_ID_CTRL_PACKETS)
                   .setTimeout(0)
                   .setPermanent(true)
+                  .setAppName("Reactive_fwd")
                   .build();
 
-          flowServiceStub.addFlow(flowRuleProto, new StreamObserver<ServicesProto.FlowServiceStatus>() {
+          flowServiceStub.addFlow(flowRuleProto, new StreamObserver<FlowServiceStatus>() {
               @Override
-              public void onNext(ServicesProto.FlowServiceStatus value) {
+              public void onNext(FlowServiceStatus value) {
+                  log.info(value);
 
               }
 
@@ -218,16 +234,16 @@ public class fwdgrpc {
 
       }
 
-    ServicesProto.RegistrationRequest request =
-        ServicesProto.RegistrationRequest
+    RegistrationRequest request =
+        RegistrationRequest
                 .newBuilder()
                 .setClientId(clientId)
                 .build();
     packetNotificationStub.register(
         request,
-        new StreamObserver<ServicesProto.RegistrationResponse>() {
+        new StreamObserver<RegistrationResponse>() {
           @Override
-          public void onNext(ServicesProto.RegistrationResponse value) {
+          public void onNext(RegistrationResponse value) {
             serverId = value.getServerId();
           }
 
@@ -238,16 +254,11 @@ public class fwdgrpc {
           public void onCompleted() {}
         });
 
-
-    ServicesProto.Topic packettopic =
-        ServicesProto.Topic.newBuilder()
+    Topic packettopic =
+        Topic.newBuilder()
             .setClientId(clientId)
-            .setType(ServicesProto.topicType.PACKET_EVENT)
+            .setType(topicType.PACKET_EVENT)
             .build();
-
-
-
-
 
 
     class PacketEvent implements Runnable {
@@ -257,9 +268,9 @@ public class fwdgrpc {
 
         packetNotificationStub.onEvent(
             packettopic,
-            new StreamObserver<ServicesProto.Notification>() {
+            new StreamObserver<Notification>() {
               @Override
-              public void onNext(ServicesProto.Notification value) {
+              public void onNext(Notification value) {
 
                 PacketContextProto packetContextProto = value.getPacketContext();
 
@@ -325,9 +336,9 @@ public class fwdgrpc {
 
                   packetOutServiceStub.emit(
                       outboundPacketProto,
-                      new StreamObserver<ServicesProto.PacketOutStatus>() {
+                      new StreamObserver<PacketOutStatus>() {
                         @Override
-                        public void onNext(ServicesProto.PacketOutStatus value) {}
+                        public void onNext(PacketOutStatus value) {}
 
                         @Override
                         public void onError(Throwable t) {}
@@ -395,6 +406,7 @@ public class fwdgrpc {
                                 .setType(CriterionProtoOuterClass.TypeProto.IPV4_SRC)
                             .setIpCriterion(
                                 CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                        .setPrefixLength(32)
                                     .setIpPrefix(
                                         ByteString.copyFrom(
                                             createIpAddress(srcHost.getHostIPAddresses().get(0))))
@@ -405,6 +417,7 @@ public class fwdgrpc {
                                       .setType(CriterionProtoOuterClass.TypeProto.IPV4_DST)
                                       .setIpCriterion(
                                               CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                                      .setPrefixLength(32)
                                                       .setIpPrefix(
                                                               ByteString.copyFrom(
                                                                       createIpAddress(dstHost.getHostIPAddresses().get(0))))
@@ -441,6 +454,7 @@ public class fwdgrpc {
                             .setTreatment(trafficTreatmentProto)
                             .setSelector(trafficSelectorProto)
                             .setPriority(IP_PACKET_PRIORITY)
+                            .setAppName("Reactive_Fwd")
                             .setDeviceId(dstHost.getHostLocation().getElementID())
                             .setTableId(TABLE_ID)
                             .setTimeout(DEFAULT_TIMEOUT)
@@ -449,9 +463,9 @@ public class fwdgrpc {
 
                     flowServiceStub.addFlow(
                         flowRuleProto,
-                        new StreamObserver<ServicesProto.FlowServiceStatus>() {
+                        new StreamObserver<FlowServiceStatus>() {
                           @Override
-                          public void onNext(ServicesProto.FlowServiceStatus value) {}
+                          public void onNext(FlowServiceStatus value) {}
 
                           @Override
                           public void onError(Throwable t) {}
@@ -484,9 +498,9 @@ public class fwdgrpc {
 
                     packetOutServiceStub.emit(
                         outboundPacketProto2,
-                        new StreamObserver<ServicesProto.PacketOutStatus>() {
+                        new StreamObserver<PacketOutStatus>() {
                           @Override
-                          public void onNext(ServicesProto.PacketOutStatus value) {}
+                          public void onNext(PacketOutStatus value) {}
 
                           @Override
                           public void onError(Throwable t) {}
@@ -539,6 +553,7 @@ public class fwdgrpc {
                           .setType(CriterionProtoOuterClass.TypeProto.IPV4_SRC)
                           .setIpCriterion(
                               CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                      .setPrefixLength(32)
                                   .setIpPrefix(
                                       ByteString.copyFrom(
                                           createIpAddress(srcHost.getHostIPAddresses().get(0))))
@@ -550,6 +565,7 @@ public class fwdgrpc {
                               .setType(CriterionProtoOuterClass.TypeProto.IPV4_DST)
                           .setIpCriterion(
                               CriterionProtoOuterClass.IPCriterionProto.newBuilder()
+                                      .setPrefixLength(32)
                                   .setIpPrefix(
                                       ByteString.copyFrom(
                                           createIpAddress(dstHost.getHostIPAddresses().get(0))))
@@ -590,13 +606,14 @@ public class fwdgrpc {
                           .setTableId(TABLE_ID)
                           .setTimeout(DEFAULT_TIMEOUT)
                           .setPermanent(false)
+                          .setAppName("Reactive_fwd")
                           .build();
 
                   flowServiceStub.addFlow(
                       flowRuleProto,
-                      new StreamObserver<ServicesProto.FlowServiceStatus>() {
+                      new StreamObserver<FlowServiceStatus>() {
                         @Override
-                        public void onNext(ServicesProto.FlowServiceStatus value) {}
+                        public void onNext(FlowServiceStatus value) {}
 
                         @Override
                         public void onError(Throwable t) {}
@@ -630,9 +647,9 @@ public class fwdgrpc {
 
                   packetOutServiceStub.emit(
                       outboundPacketProto2,
-                      new StreamObserver<ServicesProto.PacketOutStatus>() {
+                      new StreamObserver<PacketOutStatus>() {
                         @Override
-                        public void onNext(ServicesProto.PacketOutStatus value) {}
+                        public void onNext(PacketOutStatus value) {}
 
                         @Override
                         public void onError(Throwable t) {}
