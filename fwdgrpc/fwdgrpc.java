@@ -42,7 +42,9 @@ import org.onosproject.grpc.net.models.PortProtoOuterClass;
 import org.onosproject.grpc.net.packet.models.InboundPacketProtoOuterClass.InboundPacketProto;
 import org.onosproject.grpc.net.packet.models.OutboundPacketProtoOuterClass.OutboundPacketProto;
 import org.onosproject.grpc.net.packet.models.PacketContextProtoOuterClass.PacketContextProto;
-import org.onosproject.grpc.net.topology.models.TopologyGraphProtoOuterClass;
+import org.onosproject.grpc.net.topology.models.TopologyEdgeProtoOuterClass.TopologyEdgeProto;
+import org.onosproject.grpc.net.topology.models.TopologyGraphProtoOuterClass.TopologyGraphProto;
+import org.onosproject.grpc.net.topology.models.TopologyVertexProtoOuterClass.TopologyVertexProto;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -59,7 +61,8 @@ public class fwdgrpc {
   private static int CTRL_PACKET_PRIORITY = 100;
   private static int IP_PACKET_PRIORITY = 1000;
   private static int DEFAULT_TIMEOUT = 10;
-
+  private static List<TopologyEdgeProto> topologyEdgeProtoList;
+  private static List<TopologyVertexProto> topologyVertexProtoList;
 
   public static byte[] createMacAddress (String mac) {
 
@@ -122,25 +125,22 @@ public class fwdgrpc {
     flowServiceStub = FlowServiceGrpc.newStub(channel);
 
     packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
-
-
     ServicesProto.Empty req = ServicesProto.Empty.newBuilder().build();
 
-    topoServiceStub.getGraph(req, new StreamObserver<TopologyGraphProtoOuterClass.TopologyGraphProto>() {
-        @Override
-        public void onNext(TopologyGraphProtoOuterClass.TopologyGraphProto value) {
 
+
+    topoServiceStub.getGraph(req, new StreamObserver<TopologyGraphProto>() {
+        @Override
+        public void onNext(TopologyGraphProto value) {
+            topologyEdgeProtoList = value.getEdgesList();
+            topologyVertexProtoList = value.getVertexesList();
         }
 
         @Override
-        public void onError(Throwable t) {
-
-        }
+        public void onError(Throwable t) {}
 
         @Override
-        public void onCompleted() {
-
-        }
+        public void onCompleted() {}
     });
 
 
@@ -149,9 +149,7 @@ public class fwdgrpc {
 
 
 
-
-
-      for (TopoSwitch topoSwitch : topoSwitches) {
+      for (TopologyVertexProto topologyVertexProto: topologyVertexProtoList) {
 
           EthTypeCriterionProto ethTypeCriterionProto = EthTypeCriterionProto
                   .newBuilder()
@@ -193,7 +191,7 @@ public class fwdgrpc {
                   .setTreatment(trafficTreatmentProto)
                   .setSelector(trafficSelectorProto)
                   .setPriority(CTRL_PACKET_PRIORITY)
-                  .setDeviceId(topoSwitch.getSwitchID())
+                  .setDeviceId(topologyVertexProto.getDeviceId().getDeviceId())
                   .setTableId(TABLE_ID_CTRL_PACKETS)
                   .setTimeout(0)
                   .setPermanent(true)
@@ -238,7 +236,7 @@ public class fwdgrpc {
                   .setTreatment(trafficTreatmentProto)
                   .setSelector(trafficSelectorProto)
                   .setPriority(CTRL_PACKET_PRIORITY)
-                  .setDeviceId(topoSwitch.getSwitchID())
+                  .setDeviceId(topologyVertexProto.getDeviceId().getDeviceId())
                   .setTableId(TABLE_ID_CTRL_PACKETS)
                   .setTimeout(0)
                   .setPermanent(true)
@@ -249,18 +247,13 @@ public class fwdgrpc {
               @Override
               public void onNext(FlowServiceStatus value) {
                   log.info(value);
-
-              }
-
-              @Override
-              public void onError(Throwable t) {
-
-              }
+                  }
 
               @Override
-              public void onCompleted() {
+              public void onError(Throwable t) {}
 
-              }
+              @Override
+              public void onCompleted() {}
           });
 
       }
@@ -351,7 +344,9 @@ public class fwdgrpc {
                                   .build())
                           .build();
                   InstructionProto instructionProto =
-                      InstructionProto.newBuilder().setOutput(outputInstructionProto).build();
+                      InstructionProto.newBuilder()
+                              .setOutput(outputInstructionProto)
+                              .build();
 
                   TrafficTreatmentProto trafficTreatmentProto =
                       TrafficTreatmentProto.newBuilder()

@@ -5,6 +5,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
+import org.onosproject.grpc.net.models.HostProtoOuterClass.HostProto;
 import org.onosproject.grpc.net.topology.models.TopologyEdgeProtoOuterClass.TopologyEdgeProto;
 import org.onosproject.grpc.net.topology.models.TopologyGraphProtoOuterClass.TopologyGraphProto;
 import org.onosproject.grpc.net.topology.models.TopologyProtoOuterClass.TopologyProto;
@@ -28,6 +29,7 @@ public class topogrpc {
     grpcPort = configService.getConfig().getGrpcPort();
     TopoServiceStub topologyServiceStub;
 
+    // Creates a gRPC channel
     channel =
         ManagedChannelBuilder
                 .forAddress(controllerIP, Integer.parseInt(grpcPort))
@@ -37,6 +39,7 @@ public class topogrpc {
     topologyServiceStub = TopoServiceGrpc.newStub(channel);
     ServicesProto.Empty empty = ServicesProto.Empty.newBuilder().build();
 
+    // Retrieves current topology information
     topologyServiceStub.currentTopology(empty,
             new StreamObserver<TopologyProto>() {
               @Override
@@ -52,9 +55,11 @@ public class topogrpc {
               public void onCompleted() {}
             });
 
+    // Retrieves topology graph
     topologyServiceStub.getGraph(empty, new StreamObserver<TopologyGraphProto>() {
         @Override
         public void onNext(TopologyGraphProto value) {
+
             for(TopologyEdgeProto topologyEdgeProto: value.getEdgesList()) {
 
                 log.info(topologyEdgeProto.getLink().getSrc().getDeviceId() +
@@ -70,6 +75,30 @@ public class topogrpc {
         @Override
         public void onCompleted() {}
     });
+
+    // Retrieves list of hosts in the network topology
+    topologyServiceStub.getHosts(empty, new StreamObserver<ServicesProto.HostsProto>() {
+        @Override
+        public void onNext(ServicesProto.HostsProto value) {
+            for(HostProto hostProto:value.getHostList()) {
+
+                log.info(hostProto.getIpAddresses(0)
+                + ";" + hostProto.getHostId().getMac() + ";" +
+                hostProto.getLocation().getConnectPoint().getDeviceId()
+                + ":" + hostProto.getLocation().getConnectPoint().getPortNumber());
+            }
+        }
+
+        @Override
+        public void onError(Throwable t) {}
+
+        @Override
+        public void onCompleted() {}
+    });
+
+
+
+
 
     while(true) {
     }
