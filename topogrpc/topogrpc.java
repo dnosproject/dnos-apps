@@ -1,15 +1,18 @@
 package topogrpc;
 
+
 import config.ConfigService;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
+import org.onosproject.grpc.grpcintegration.models.ControlMessagesProto.Hosts;
+import org.onosproject.grpc.grpcintegration.models.ControlMessagesProto.Empty;
 import org.onosproject.grpc.net.models.HostProtoOuterClass.HostProto;
 import org.onosproject.grpc.net.topology.models.TopologyEdgeProtoOuterClass.TopologyEdgeProto;
 import org.onosproject.grpc.net.topology.models.TopologyGraphProtoOuterClass.TopologyGraphProto;
 import org.onosproject.grpc.net.topology.models.TopologyProtoOuterClass.TopologyProto;
-import org.onosproject.grpc.grpcintegration.models.ServicesProto;
+
 import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc;
 import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc.TopoServiceStub;
 
@@ -37,7 +40,7 @@ public class topogrpc {
                 .build();
 
     topologyServiceStub = TopoServiceGrpc.newStub(channel);
-    ServicesProto.Empty empty = ServicesProto.Empty.newBuilder().build();
+    Empty empty = Empty.newBuilder().build();
 
     // Retrieves current topology information
     topologyServiceStub.currentTopology(empty,
@@ -77,9 +80,9 @@ public class topogrpc {
     });
 
     // Retrieves list of hosts in the network topology
-    topologyServiceStub.getHosts(empty, new StreamObserver<ServicesProto.HostsProto>() {
+    topologyServiceStub.getHosts(empty, new StreamObserver<Hosts>() {
         @Override
-        public void onNext(ServicesProto.HostsProto value) {
+        public void onNext(Hosts value) {
             for(HostProto hostProto:value.getHostList()) {
 
                 log.info(hostProto.getIpAddresses(0)
@@ -95,10 +98,6 @@ public class topogrpc {
         @Override
         public void onCompleted() {}
     });
-
-
-
-
 
     while(true) {
     }
