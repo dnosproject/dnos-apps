@@ -78,6 +78,7 @@ public class samplepacketprocessor {
 
                 PacketContextProto packetContextProto = value.getPacketContext();
                 PacketContextProto finalPacketContextProto = packetContextProto;
+
                 byte[] packetByteArray =
                     finalPacketContextProto.getInboundPacket().getData().toByteArray();
                 Ethernet eth = new Ethernet();
@@ -114,6 +115,7 @@ public class samplepacketprocessor {
       }
     }
 
+    // Creates an instance of internal packet event class.
     PacketEvent packetEvent = new PacketEvent();
     Thread t = new Thread(packetEvent);
     t.start();

@@ -16,7 +16,9 @@ import org.onosproject.grpc.net.topology.models.TopologyProtoOuterClass.Topology
 import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc;
 import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc.TopoServiceStub;
 
-
+/**
+ * A sample application to retrieve topology information using gRPC API.
+ */
 public class topogrpc {
   private static Logger log = Logger.getLogger(topogrpc.class);
 
@@ -26,6 +28,7 @@ public class topogrpc {
     String controllerIP;
     String grpcPort;
 
+    // Initialize a remote config service for logging
     ConfigService configService = new ConfigService();
     configService.init();
     controllerIP = configService.getConfig().getControllerIp();
