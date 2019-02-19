@@ -12,6 +12,13 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.6.0.tar.gz"],
 )
 
+http_archive(
+    name = "build_stack_rules_proto",
+    sha256 = "5474d1b83e24ec1a6db371033a27ff7aff412f2b23abba86fedd902330b61ee6",
+    strip_prefix = "rules_proto-91cbae9bd71a9c51406014b8b3c931652fb6e660",
+    urls = ["https://github.com/stackb/rules_proto/archive/91cbae9bd71a9c51406014b8b3c931652fb6e660.tar.gz"],
+)
+
 # OPTIONAL: Call this to override the default docker toolchain configuration.
 # This call should be placed BEFORE the call to "container_repositories" below
 # to actually override the default toolchain configuration.
@@ -57,6 +64,15 @@ load(
 
 _java_image_repos()
 
+## Py_image
+
+load(
+    "@io_bazel_rules_docker//python:image.bzl",
+    _py_image_repos = "repositories",
+)
+
+_py_image_repos()
+
 git_repository(
     name = "dnos_core",
     commit = "43e58213fadc0197195c99eb418d89b305a543ed",
@@ -75,6 +91,14 @@ git_repository(
     remote = "https://github.com/dnosproject/dnos-core-grpc",
 )
 
+git_repository(
+    name = "dnos_core_grpc_python",
+    commit = "13e81fa14df060100e0b98ace954d65701f97e61",
+    remote = "https://github.com/dnosproject/dnos-core-grpc-python.git",
+)
+
+### Java
+
 load("@dnos_core//tools/build/bazel:generate_workspace.bzl", "generated_maven_jars")
 
 generated_maven_jars()
@@ -86,3 +110,53 @@ generate_grpc()
 load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
 
 grpc_java_repositories()
+
+### Python protobuf related dependencies
+load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
+
+python_proto_library()
+
+load("@io_bazel_rules_python//python:pip.bzl", "pip_import", "pip_repositories")
+
+pip_repositories()
+
+pip_import(
+    name = "protobuf_py_deps",
+    requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
+)
+
+load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
+
+protobuf_pip_install()
+
+### python_grpc_library related loads
+
+load("@build_stack_rules_proto//python:deps.bzl", "python_grpc_library")
+
+python_grpc_library()
+
+load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+
+grpc_deps()
+
+load("@io_bazel_rules_python//python:pip.bzl", "pip_import", "pip_repositories")
+
+pip_repositories()
+
+pip_import(
+    name = "protobuf_py_deps",
+    requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
+)
+
+load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
+
+protobuf_pip_install()
+
+pip_import(
+    name = "grpc_py_deps",
+    requirements = "@build_stack_rules_proto//python:requirements.txt",
+)
+
+load("@grpc_py_deps//:requirements.bzl", grpc_pip_install = "pip_install")
+
+grpc_pip_install()

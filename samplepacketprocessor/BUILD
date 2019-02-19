@@ -7,7 +7,6 @@ COMPILE_DEPS = COMPILE + [
     "@dnos_core_grpc//protobuf/proto:onos-protobuf-models-proto",
     "@dnos_services//config:dnos-services-config-service",
     "@com_google_protobuf//:protobuf_java",
-    "@com_googlecode_json_simple//jar",
     "@onos_openflow//jar",
     "@io_netty//jar",
     "@guava//jar",

@@ -77,7 +77,6 @@ public class samplepacketprocessor {
               public void onNext(Notification value) {
 
                 PacketContextProto packetContextProto = value.getPacketContext();
-
                 PacketContextProto finalPacketContextProto = packetContextProto;
                 byte[] packetByteArray =
                     finalPacketContextProto.getInboundPacket().getData().toByteArray();

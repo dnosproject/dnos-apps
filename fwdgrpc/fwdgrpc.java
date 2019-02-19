@@ -17,6 +17,7 @@ import org.onlab.packet.Ethernet;
 import org.onlab.packet.IPv4;
 import org.onlab.packet.Ip4Address;
 import org.onlab.packet.MacAddress;
+import org.onosproject.grpc.grpcintegration.models.ControlMessagesProto.Empty;
 import org.onosproject.grpc.grpcintegration.models.EventNotificationGrpc;
 import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Notification;
 import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.RegistrationRequest;
@@ -25,7 +26,6 @@ import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Topic;
 import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.topicType;
 import org.onosproject.grpc.grpcintegration.models.FlowServiceGrpc;
 import org.onosproject.grpc.grpcintegration.models.PacketOutServiceGrpc;
-import org.onosproject.grpc.grpcintegration.models.ServicesProto;
 import org.onosproject.grpc.grpcintegration.models.StatusProto;
 import org.onosproject.grpc.grpcintegration.models.StatusProto.FlowServiceStatus;
 import org.onosproject.grpc.grpcintegration.models.StatusProto.PacketOutStatus;
@@ -125,7 +125,7 @@ public class fwdgrpc {
     flowServiceStub = FlowServiceGrpc.newStub(channel);
 
     packetOutServiceStub = PacketOutServiceGrpc.newStub(channel);
-    ServicesProto.Empty req = ServicesProto.Empty.newBuilder().build();
+    Empty req = Empty.newBuilder().build();
 
 
 

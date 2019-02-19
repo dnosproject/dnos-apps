@@ -1,22 +1,20 @@
 package linkfailuredetector;
 
-import api.topostore.TopoEdge;
-import api.topostore.TopoEdgeType;
-import api.topostore.TopoSwitch;
 import config.ConfigService;
-import drivers.controller.Controller;
-import drivers.onos.OnosController;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import org.apache.log4j.Logger;
-import org.onosproject.grpc.net.models.EventNotificationGrpc;
-import org.onosproject.grpc.net.models.ServicesProto;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Set;
+import org.onosproject.grpc.grpcintegration.models.ControlMessagesProto.Empty;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationGrpc;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationGrpc.EventNotificationStub;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Notification;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.RegistrationRequest;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.RegistrationResponse;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.Topic;
+import org.onosproject.grpc.grpcintegration.models.EventNotificationProto.topicType;
+import org.onosproject.grpc.grpcintegration.models.TopoServiceGrpc;
+import org.onosproject.grpc.net.topology.models.TopologyProtoOuterClass.TopologyProto;
 
 public class linkfailuredetector {
   private static Logger log = Logger.getLogger(linkfailuredetector.class);
@@ -24,31 +22,20 @@ public class linkfailuredetector {
   static String serverId = null;
   static String clientId = "linkfailuredetector";
 
-
-
   public static void main(String[] args) {
 
-
-
     ManagedChannel channel;
-    String controllerName;
     String controllerIP;
     String grpcPort;
-    Controller controller = null;
 
     ConfigService configService = new ConfigService();
     configService.init();
-
-    controllerName = configService.getConfig().getControllerName();
     controllerIP = configService.getConfig().getControllerIp();
 
     grpcPort = configService.getConfig().getGrpcPort();
-    controller = new OnosController();
-    Controller finalController = controller;
-    Set<TopoSwitch> topoSwitches = finalController.topoStore.getSwitches();
-
-    Set<TopoEdge> topoEdges = finalController.topoStore.getTopoEdges();
-    EventNotificationGrpc.EventNotificationStub linkEventNotification;
+    EventNotificationStub linkEventNotification;
+    TopoServiceGrpc.TopoServiceStub topologyServiceStub;
+    Empty empty = Empty.newBuilder().build();
 
     channel =
         ManagedChannelBuilder.forAddress(controllerIP, Integer.parseInt(grpcPort))
@@ -56,16 +43,18 @@ public class linkfailuredetector {
             .build();
 
     linkEventNotification = EventNotificationGrpc.newStub(channel);
+    topologyServiceStub = TopoServiceGrpc.newStub(channel);
 
-    ServicesProto.RegistrationRequest request =
-        ServicesProto.RegistrationRequest.newBuilder().setClientId(clientId).build();
+    RegistrationRequest request =
+        RegistrationRequest.newBuilder()
+                .setClientId(clientId)
+                .build();
     linkEventNotification.register(
         request,
-        new StreamObserver<ServicesProto.RegistrationResponse>() {
+        new StreamObserver<RegistrationResponse>() {
           @Override
-          public void onNext(ServicesProto.RegistrationResponse value) {
-
-            serverId = value.getServerId();
+          public void onNext(RegistrationResponse value) {
+              serverId = value.getServerId();
           }
 
           @Override
@@ -75,10 +64,10 @@ public class linkfailuredetector {
           public void onCompleted() {}
         });
 
-    ServicesProto.Topic topic =
-        ServicesProto.Topic.newBuilder()
+    Topic topic =
+        Topic.newBuilder()
             .setClientId(clientId)
-            .setType(ServicesProto.topicType.LINK_EVENT)
+            .setType(topicType.LINK_EVENT)
             .build();
 
     class Event implements Runnable {
@@ -88,32 +77,51 @@ public class linkfailuredetector {
 
         linkEventNotification.onEvent(
             topic,
-            new StreamObserver<ServicesProto.Notification>() {
+            new StreamObserver<Notification>() {
               @Override
-              public void onNext(ServicesProto.Notification value) {
-
-                TopoEdge edge = new TopoEdge();
-                edge.setSrc(value.getLinkEvent().getLink().getSrc().getDeviceId());
-                edge.setSrcPort(value.getLinkEvent().getLink().getSrc().getPortNumber());
-                edge.setDst(value.getLinkEvent().getLink().getDst().getDeviceId());
-                edge.setDstPort(value.getLinkEvent().getLink().getDst().getPortNumber());
-                edge.setType(TopoEdgeType.SWITCH_SWITCH);
+              public void onNext(Notification value) {
 
                 switch (value.getLinkEvent().getLinkEventType()) {
                   case LINK_ADDED:
-                    log.info("LINK_ADDED");
-                    finalController.topoStore.addEdge(edge);
+                    log.info("LINK_ADDED Event");
+                      topologyServiceStub.currentTopology(empty,
+                            new StreamObserver<TopologyProto>() {
+                        @Override
+                        public void onNext(TopologyProto value) {
+                            log.info("Number of Links:" + value.getLinkCount());
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {}
+
+                        @Override
+                        public void onCompleted() {}
+                    });
+
 
                     break;
                   case LINK_REMOVED:
-                    log.info("LINK_REMOVED");
-                    finalController.topoStore.removeEdge(edge);
+                    log.info("LINK_REMOVED Event");
+                      topologyServiceStub.currentTopology(empty,
+                            new StreamObserver<TopologyProto>() {
+                        @Override
+                        public void onNext(TopologyProto value) {
+                            log.info("Number of Links:" + value.getLinkCount());
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {}
+
+                        @Override
+                        public void onCompleted() {}
+                    });
+
                     break;
                   case LINK_UPDATED:
                     //log.info("LINK_UPDATED");
+                    break;
                 }
 
-                //log.info(finalController.topoStore.getTopoEdges().size());
               }
 
               @Override
